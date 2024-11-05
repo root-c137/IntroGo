@@ -1,0 +1,21 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - task --version
+  build:
+    cmds:
+      - GOOS=linux GOARCH=386 go build -o bin/app_86 main.go
+      - GOOS=darwin GOARCH=arm64 go build -o bin/app_arm main.go
+
+  deploy:
+    deps: [build]
+    cmds:
+     - scp ./bin/app_86 student@root-c137-server.eddi.cloud:/home/student/
+     - scp ./bin/app_arm student@root-c137-server.eddi.cloud:/home/student/
